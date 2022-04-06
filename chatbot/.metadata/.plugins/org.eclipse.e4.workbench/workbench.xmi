@@ -70,10 +70,11 @@
           <tags>persp.actionSet:org.eclipse.jdt.junit.JUnitActionSet</tags>
           <tags>persp.viewSC:org.eclipse.ant.ui.views.AntView</tags>
           <children xsi:type="basic:PartSashContainer" xmi:id="_Ph2OVKmNEeyzIbdEvTpKlA" selectedElement="_Ph2OXamNEeyzIbdEvTpKlA" horizontal="true">
-            <children xsi:type="basic:PartSashContainer" xmi:id="_Ph2OVamNEeyzIbdEvTpKlA" toBeRendered="false" containerData="2500">
-              <children xsi:type="basic:PartStack" xmi:id="_Ph2OVqmNEeyzIbdEvTpKlA" elementId="left" toBeRendered="false" containerData="6000">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_Ph2OVamNEeyzIbdEvTpKlA" visible="false" containerData="2500" selectedElement="_Ph2OVqmNEeyzIbdEvTpKlA">
+              <children xsi:type="basic:PartStack" xmi:id="_Ph2OVqmNEeyzIbdEvTpKlA" elementId="left" visible="false" containerData="6000" selectedElement="_Ph2OV6mNEeyzIbdEvTpKlA">
                 <tags>org.eclipse.e4.primaryNavigationStack</tags>
-                <children xsi:type="advanced:Placeholder" xmi:id="_Ph2OV6mNEeyzIbdEvTpKlA" elementId="org.eclipse.jdt.ui.PackageExplorer" toBeRendered="false" ref="_PhtEYKmNEeyzIbdEvTpKlA" closeable="true">
+                <tags>Minimized</tags>
+                <children xsi:type="advanced:Placeholder" xmi:id="_Ph2OV6mNEeyzIbdEvTpKlA" elementId="org.eclipse.jdt.ui.PackageExplorer" ref="_PhtEYKmNEeyzIbdEvTpKlA" closeable="true">
                   <tags>View</tags>
                   <tags>categoryTag:Java</tags>
                 </children>
@@ -215,7 +216,7 @@
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
       </menus>
-      <toolbar xmi:id="_PlO5gKmNEeyzIbdEvTpKlA" elementId="org.eclipse.jdt.ui.PackageExplorer" visible="false"/>
+      <toolbar xmi:id="_PlO5gKmNEeyzIbdEvTpKlA" elementId="org.eclipse.jdt.ui.PackageExplorer"/>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_PhuSgKmNEeyzIbdEvTpKlA" elementId="org.eclipse.jdt.ui.TypeHierarchy" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Type Hierarchy" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/eview16/class_hi.png" tooltip="" closeable="true">
       <persistedState key="originalCompatibilityViewClass" value="org.eclipse.jdt.internal.ui.typehierarchy.TypeHierarchyViewPart"/>
@@ -334,7 +335,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PbBNkKmNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_PbE38KmNEeyzIbdEvTpKlA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PLQTUamNEeyzIbdEvTpKlA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_MojuYLYBEeyA9IRzqS0xOg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PLQTUamNEeyzIbdEvTpKlA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PbBNkamNEeyzIbdEvTpKlA" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -365,7 +366,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PbBNmKmNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_PbFfAamNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_PLPFTqmNEeyzIbdEvTpKlA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_MomKorYBEeyA9IRzqS0xOg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_PLPFTqmNEeyzIbdEvTpKlA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PbB0oKmNEeyzIbdEvTpKlA" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -404,8 +405,12 @@
         <tags>Draggable</tags>
       </children>
     </trimBars>
-    <trimBars xmi:id="_PKxLGKmNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.trim.vertical1" contributorURI="platform:/plugin/org.eclipse.platform" toBeRendered="false" side="Left">
+    <trimBars xmi:id="_PKxLGKmNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.trim.vertical1" contributorURI="platform:/plugin/org.eclipse.platform" side="Left">
       <children xsi:type="menu:ToolControl" xmi:id="_PyYksKmNEeyzIbdEvTpKlA" elementId="org.eclipse.ui.ide.perspectivestack(minimized)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+        <tags>TrimStack</tags>
+        <tags>Draggable</tags>
+      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_U2CtMLYBEeyA9IRzqS0xOg" elementId="left(IDEWindow).(org.eclipse.jdt.ui.JavaPerspective)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
         <tags>TrimStack</tags>
         <tags>Draggable</tags>
       </children>
@@ -976,7 +981,7 @@
     <bindings xmi:id="_PLpU56mNEeyzIbdEvTpKlA" keySequence="ALT+CR" command="_PLMB2KmNEeyzIbdEvTpKlA"/>
   </bindingTables>
   <bindingTables xmi:id="_PMIdBqmNEeyzIbdEvTpKlA" contributorURI="platform:/fragment/org.eclipse.e4.ui.workbench.renderers.swt.cocoa" bindingContext="_PKxLHqmNEeyzIbdEvTpKlA">
-    <bindings xmi:id="_PMIdB6mNEeyzIbdEvTpKlA" keySequence="M1+W" command="_PMIdBKmNEeyzIbdEvTpKlA"/>
+    <bindings xmi:id="_Mb4kUbYBEeyA9IRzqS0xOg" keySequence="M1+W" command="_PMIdBKmNEeyzIbdEvTpKlA"/>
   </bindingTables>
   <bindingTables xmi:id="_PhpaAamNEeyzIbdEvTpKlA" bindingContext="_PhpaAKmNEeyzIbdEvTpKlA"/>
   <bindingTables xmi:id="_PhpaA6mNEeyzIbdEvTpKlA" bindingContext="_PhpaAqmNEeyzIbdEvTpKlA"/>
