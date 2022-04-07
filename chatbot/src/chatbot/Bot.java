@@ -1,7 +1,10 @@
 package chatbot;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 import java.io.*;
+import java.net.URISyntaxException;
+
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.postag.POSModel;
@@ -10,11 +13,35 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 import twitter4j.*;
 import twitter4j.conf.*;
 
+import com.google.api.*;
+import com.google.api.translate.Language; 
+import com.google.api.translate.Translate;
+
+
 public class Bot {
 	
+	static Twitter unauthenticatedTwitter = new TwitterFactory().getInstance();
+    
+    static String bearerToken = "AAAAAAAAAAAAAAAAAAAAAOXYbAEAAAAAksCXvXGmuVo%2BU%2Bpn%2Bphbvtc75lI%3DnTfOlqC2AWzGQ9K01Oonngey98o3Tqxuza9XsxSOr7Wc0govQv";
+	
+    static String[] twitterAccounts = {"41713603","951133063165116418","780104972","141341662","23544596","846137120209190912","272985460", "simoncholland", "23544268", "86993064"};
+    
 	// possible user input
 	static String[][] inputText = {
 			//standard greetings
@@ -125,6 +152,118 @@ public class Bot {
     //user location
     static String userLocation = "";
 
+    public static String getTweet(String s) throws TwitterException {
+    	//First param of Paging() is the page number, second is the number per page (this is capped around 200 I think.
+        Paging paging = new Paging(1, 100);
+        List<Status> statuses = unauthenticatedTwitter.getUserTimeline("google", paging);
+        return statuses.get(0).toString();
+    }
+    
+//    private static String getTweets(int tweetId, String bearerToken) throws IOException, URISyntaxException {
+//        String tweetResponse = null;
+//
+//        HttpClient httpClient = HttpClients.custom()
+//            .setDefaultRequestConfig(RequestConfig.custom()
+//                .setCookieSpec(CookieSpecs.STANDARD).build())
+//            .build();
+//
+//        URIBuilder uriBuilder = new URIBuilder(String.format("https://api.twitter.com/2/tweets/%s/quote_tweets", tweetId));
+//        ArrayList<NameValuePair> queryParameters;
+//        queryParameters = new ArrayList<>();
+//        queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
+//        uriBuilder.addParameters(queryParameters);
+//
+//        HttpGet httpGet = new HttpGet(uriBuilder.build());
+//        httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
+//        httpGet.setHeader("Content-Type", "application/json");
+//
+//        HttpResponse response = httpClient.execute(httpGet);
+//        HttpEntity entity = response.getEntity();
+//        if (null != entity) {
+//          tweetResponse = EntityUtils.toString(entity, "UTF-8");
+//        }
+//        return tweetResponse;
+//      }
+    
+//    private static String getTweets(String ids, String bearerToken) throws IOException, URISyntaxException {
+//        String tweetResponse = null;
+//
+//        HttpClient httpClient = HttpClients.custom()
+//            .setDefaultRequestConfig(RequestConfig.custom()
+//                .setCookieSpec(CookieSpecs.STANDARD).build())
+//            .build();
+//
+//        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets");
+//        ArrayList<NameValuePair> queryParameters;
+//        queryParameters = new ArrayList<>();
+//        queryParameters.add(new BasicNameValuePair("ids", ids));
+//        queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
+//        uriBuilder.addParameters(queryParameters);
+//
+//        HttpGet httpGet = new HttpGet(uriBuilder.build());
+//        httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
+//        httpGet.setHeader("Content-Type", "application/json");
+//
+//        HttpResponse response = httpClient.execute(httpGet);
+//        HttpEntity entity = response.getEntity();
+//        if (null != entity) {
+//          tweetResponse = EntityUtils.toString(entity, "UTF-8");
+//        }
+//        return tweetResponse;
+//      }
+    
+    public static String getTweets(String userId, String bearerToken) throws IOException, URISyntaxException {
+        String tweetResponse = null;
+
+        HttpClient httpClient = HttpClients.custom()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                .setCookieSpec(CookieSpecs.STANDARD).build())
+            .build();
+
+        URIBuilder uriBuilder = new URIBuilder(String.format("https://api.twitter.com/2/users/%s/tweets", userId));
+        ArrayList<NameValuePair> queryParameters;
+        queryParameters = new ArrayList<>();
+        queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
+        uriBuilder.addParameters(queryParameters);
+
+        HttpGet httpGet = new HttpGet(uriBuilder.build());
+        httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
+        httpGet.setHeader("Content-Type", "application/json");
+
+        HttpResponse response = httpClient.execute(httpGet);
+        HttpEntity entity = response.getEntity();
+        if (null != entity) {
+          tweetResponse = EntityUtils.toString(entity, "UTF-8");
+        }
+        return tweetResponse;
+      }
+    
+    public static String generateUserId(String[] s) {
+    	int randomIndex = (int)Math.floor(Math.random()*(s.length-1-0+1)+0);
+    	return s[randomIndex]; 
+
+    }
+    
+    public static String printTweets(String bearerToken) throws IOException, URISyntaxException {
+    	String response = ""; 
+    	String userId = generateUserId(twitterAccounts);
+    	
+    	if (null != bearerToken) {
+    		
+	           response = getTweets(userId, bearerToken); 
+	           String[] s = response.split("}");
+	           response = s[0]+"}"; 
+	           
+	          
+	        } else {
+	        	
+	         response = "There was a problem getting your bearer token. Please make sure you set the BEARER_TOKEN environment variable";
+	        
+	        }
+    	return response; 
+    }
+    
+    
 	//get response to specific input
 	public String getChatbotResponse(String s) throws Exception {
 		if (!isQuit(s)) {
@@ -142,9 +281,6 @@ public class Bot {
 
 			//categorize terms based on their lemmas
 			lemmatize(tokens, tags);
-
-			//print each lemma arraylist for testing
-			//printAL();
 
 			return (generateResponse(s));
 		}
@@ -620,7 +756,10 @@ public class Bot {
 				        POSTagging();
 				        personNER();
 				        locationNER();
-				        lemmatize(tokens, tags);  
+				        lemmatize(tokens, tags); 
+				      
+				        System.out.println(printTweets(bearerToken));
+				        
 					System.out.print("Bot: \t");
 					System.out.println(generateResponse(s)); 
 					System.out.print("You: \t");
