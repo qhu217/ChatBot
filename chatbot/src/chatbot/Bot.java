@@ -10,6 +10,9 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
+import twitter4j.*;
+import twitter4j.conf.*;
+
 public class Bot {
 	
 	// possible user input

@@ -1,3 +1,1 @@
-INDEX VERSION 1.131+/Users/huqingyan/Documents/GitHub/ChatBot/chatbot/.metadata/.plugins/org.eclipse.jdt.core
-564439505.index
-2782707945.index
+INDEX VERSION 1.131+/Users/huqingyan/Documents/GitHub/ChatBot_P4/chatbot/.metadata/.plugins/org.eclipse.jdt.core
