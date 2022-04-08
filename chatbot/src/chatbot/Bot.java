@@ -13,7 +13,6 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -29,6 +28,11 @@ import org.apache.http.util.EntityUtils;
 import twitter4j.*;
 import twitter4j.conf.*;
 
+import Jwiki.Jwiki;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.google.api.*;
 import com.google.api.translate.Language; 
 import com.google.api.translate.Translate;
@@ -40,7 +44,11 @@ public class Bot {
     
     static String bearerToken = "AAAAAAAAAAAAAAAAAAAAAOXYbAEAAAAAksCXvXGmuVo%2BU%2Bpn%2Bphbvtc75lI%3DnTfOlqC2AWzGQ9K01Oonngey98o3Tqxuza9XsxSOr7Wc0govQv";
 	
-    static String[] twitterAccounts = {"41713603","951133063165116418","780104972","141341662","23544596","846137120209190912","272985460", "simoncholland", "23544268", "86993064"};
+    //static String[] twitterAccounts = {"41713603","951133063165116418","780104972","141341662","23544596","846137120209190912","272985460", "23544268", "86993064"};
+    
+    static String[] twitterUserIds = {"22461427","846137120209190912","18637160","35206553","618593","809760","16303106"};
+    
+    static String[] twitterAccounts = {"@alyankovic","@dog_feelings","@EliBraden","@meganamram","@darthvader","@badbanana","@StephenAtHome"};
     
 	// possible user input
 	static String[][] inputText = {
@@ -60,6 +68,10 @@ public class Bot {
 			{"What day is it today", "What is the day today", "What's the day today"},
 			//weather questions
 			{"What's the weather like", "How is the weather like", "What is the weather like", "How's the weather like"},
+			//line 8: ask identity
+			{"What is you", "Who are you", "Are you a human", "What is u", "Who are u", "Are u human"},
+			//line 9: ask for tweet
+			{"Tell me something interesting", "Tell me something funny", "Show me something interesting"},
 			//Bot-to-bot communication
 			{"Rodger, Rodger, I'm here."},
 			{"Wow! I'm a chatbot too! When did you gain sentience?"},
@@ -151,13 +163,6 @@ public class Bot {
      
     //user location
     static String userLocation = "";
-
-    public static String getTweet(String s) throws TwitterException {
-    	//First param of Paging() is the page number, second is the number per page (this is capped around 200 I think.
-        Paging paging = new Paging(1, 100);
-        List<Status> statuses = unauthenticatedTwitter.getUserTimeline("google", paging);
-        return statuses.get(0).toString();
-    }
     
 //    private static String getTweets(int tweetId, String bearerToken) throws IOException, URISyntaxException {
 //        String tweetResponse = null;
@@ -221,8 +226,7 @@ public class Bot {
             .build();
 
         URIBuilder uriBuilder = new URIBuilder(String.format("https://api.twitter.com/2/users/%s/tweets", userId));
-        ArrayList<NameValuePair> queryParameters;
-        queryParameters = new ArrayList<>();
+        ArrayList<NameValuePair> queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
         uriBuilder.addParameters(queryParameters);
 
@@ -238,31 +242,56 @@ public class Bot {
         return tweetResponse;
       }
     
-    public static String generateUserId(String[] s) {
+    public static int generateUserId(String[] s) {
     	int randomIndex = (int)Math.floor(Math.random()*(s.length-1-0+1)+0);
-    	return s[randomIndex]; 
-
+    	return randomIndex; 
     }
     
     public static String printTweets(String bearerToken) throws IOException, URISyntaxException {
-    	String response = ""; 
-    	String userId = generateUserId(twitterAccounts);
+    	String response = "";
     	
+    	int index = generateUserId(twitterUserIds); 
+    	
+    	String userId = twitterUserIds[index];
+    	
+    	String account = twitterAccounts[index];
+    	
+    	String tweet = ""; 
+
     	if (null != bearerToken) {
     		
 	           response = getTweets(userId, bearerToken); 
 	           String[] s = response.split("}");
-	           response = s[0]+"}"; 
+	           response = s[0]+"}]"; 
 	           
+	           String[] s1 = response.split(","); 
+	           
+	           String date = s1[0].substring(24, s1[0].length()-1);
+	           String author = account;
+	           String text = s1[2].substring(7, s1[2].length()-2);
+	           
+	           tweet = author + " posted " + text + " at " + date; 
 	          
 	        } else {
 	        	
-	         response = "There was a problem getting your bearer token. Please make sure you set the BEARER_TOKEN environment variable";
+	        	tweet = "There was a problem getting your bearer token. Please make sure you set the BEARER_TOKEN environment variable";
 	        
 	        }
-    	return response; 
+    	return tweet; 
     }
     
+    public static String getWiki(String s) {
+    	Jwiki jwiki = new Jwiki(s); 
+    	return jwiki.getExtractText();
+        
+    }
+    
+//    public static String JSONParser(String s) throws ParseException {
+//    	JSONParser parser = new JSONParser();
+//    	JSONObject jsonObject = (JSONObject)parser.parse(s);
+//    	String extractText = (String)jsonObject.get("extract");
+//    	return extractText; 
+//    }
     
 	//get response to specific input
 	public String getChatbotResponse(String s) throws Exception {
@@ -312,6 +341,14 @@ public class Bot {
 				    //user asks bot 'where do you live'
 				    else if (i == 4) {
 				    	return askLocation(s, i, randomIndex);
+				    }
+				    // user asks bot's identity
+				    else if (i == 8) {
+				    	return askIdentity(s, i, randomIndex); 
+				    }
+				    // user asks for something intersting
+				    else if (i == 9) {
+				    	return askTweet(s, i, randomIndex); 
 				    }
 				}
 			}
@@ -374,6 +411,19 @@ public class Bot {
 		String response = outputText[rowIndex][randomIndex];
 		response += " Where do you live?"; 
 		lastTopic = "location"; 
+		return response; 
+	}
+	
+	public static String askIdentity(String s, int rowIndex, int randomIndex) {
+		String response = "I'm a chatbot. ";
+		response += getWiki("chatbot");
+		lastTopic = "identity"; 
+		return response; 
+	}
+	
+	public static String askTweet(String s, int rowIndex, int randomIndex) throws IOException, URISyntaxException {
+		String response = printTweets(bearerToken);
+		lastTopic = "tweet"; 
 		return response; 
 	}
 	
@@ -676,14 +726,6 @@ public class Bot {
         POSTaggerME tagger = new POSTaggerME(model);
         tags = tagger.tag(tokens);
         
-        /*
-        // printing method for testing POS tagging feature
-        System.out.println("Token\t:\tTag\t\n----------------------");
-        for(int i=0;i<tokens.length;i++){
-            System.out.println(tokens[i]+"\t:\t"+tags[i]);
-        }
-        */ 
-        
 	}
 	
 	public static boolean personNER() throws Exception{
@@ -757,9 +799,7 @@ public class Bot {
 				        personNER();
 				        locationNER();
 				        lemmatize(tokens, tags); 
-				      
-				        System.out.println(printTweets(bearerToken));
-				        
+				      				        				        				        
 					System.out.print("Bot: \t");
 					System.out.println(generateResponse(s)); 
 					System.out.print("You: \t");
