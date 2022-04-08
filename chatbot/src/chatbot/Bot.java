@@ -26,16 +26,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import twitter4j.*;
-import twitter4j.conf.*;
-
-import Jwiki.Jwiki;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.google.api.*;
-import com.google.api.translate.Language; 
-import com.google.api.translate.Translate;
 
 
 public class Bot {
