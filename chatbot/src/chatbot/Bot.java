@@ -25,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import Jwiki.Jwiki;
 import twitter4j.*;
 
 
@@ -153,60 +154,7 @@ public class Bot {
      
     //user location
     static String userLocation = "";
-    
-//    private static String getTweets(int tweetId, String bearerToken) throws IOException, URISyntaxException {
-//        String tweetResponse = null;
-//
-//        HttpClient httpClient = HttpClients.custom()
-//            .setDefaultRequestConfig(RequestConfig.custom()
-//                .setCookieSpec(CookieSpecs.STANDARD).build())
-//            .build();
-//
-//        URIBuilder uriBuilder = new URIBuilder(String.format("https://api.twitter.com/2/tweets/%s/quote_tweets", tweetId));
-//        ArrayList<NameValuePair> queryParameters;
-//        queryParameters = new ArrayList<>();
-//        queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
-//        uriBuilder.addParameters(queryParameters);
-//
-//        HttpGet httpGet = new HttpGet(uriBuilder.build());
-//        httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
-//        httpGet.setHeader("Content-Type", "application/json");
-//
-//        HttpResponse response = httpClient.execute(httpGet);
-//        HttpEntity entity = response.getEntity();
-//        if (null != entity) {
-//          tweetResponse = EntityUtils.toString(entity, "UTF-8");
-//        }
-//        return tweetResponse;
-//      }
-    
-//    private static String getTweets(String ids, String bearerToken) throws IOException, URISyntaxException {
-//        String tweetResponse = null;
-//
-//        HttpClient httpClient = HttpClients.custom()
-//            .setDefaultRequestConfig(RequestConfig.custom()
-//                .setCookieSpec(CookieSpecs.STANDARD).build())
-//            .build();
-//
-//        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets");
-//        ArrayList<NameValuePair> queryParameters;
-//        queryParameters = new ArrayList<>();
-//        queryParameters.add(new BasicNameValuePair("ids", ids));
-//        queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at"));
-//        uriBuilder.addParameters(queryParameters);
-//
-//        HttpGet httpGet = new HttpGet(uriBuilder.build());
-//        httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
-//        httpGet.setHeader("Content-Type", "application/json");
-//
-//        HttpResponse response = httpClient.execute(httpGet);
-//        HttpEntity entity = response.getEntity();
-//        if (null != entity) {
-//          tweetResponse = EntityUtils.toString(entity, "UTF-8");
-//        }
-//        return tweetResponse;
-//      }
-    
+
     public static String getTweets(String userId, String bearerToken) throws IOException, URISyntaxException {
         String tweetResponse = null;
 

@@ -23,7 +23,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="google-api-translate-java-0.97.jar"/>
 	<classpathentry kind="lib" path="twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar"/>
 	<classpathentry kind="lib" path="JWiki.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
