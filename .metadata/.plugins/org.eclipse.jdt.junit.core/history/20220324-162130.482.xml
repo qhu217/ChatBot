@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="BotTest" project="chatbot" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="chatbot.BotTest" time="13.343" displayname="BotTest" uniqueid="[engine:junit-jupiter]/[class:chatbot.BotTest]">
-    <testcase name="testDiscussLocation" classname="chatbot.BotTest" time="6.181" displayname="testDiscussLocation()" uniqueid="[engine:junit-jupiter]/[class:chatbot.BotTest]/[method:testDiscussLocation()]"/>
-    <testcase name="testDiscussFeeling" classname="chatbot.BotTest" time="2.934" displayname="testDiscussFeeling()" uniqueid="[engine:junit-jupiter]/[class:chatbot.BotTest]/[method:testDiscussFeeling()]"/>
-    <testcase name="testHobbyResponse" classname="chatbot.BotTest" time="4.227" displayname="testHobbyResponse()" uniqueid="[engine:junit-jupiter]/[class:chatbot.BotTest]/[method:testHobbyResponse()]"/>
-  </testsuite>
-</testrun>
